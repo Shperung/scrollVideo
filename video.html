@@ -1,0 +1,39 @@
+<style>
+	#vidos {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		z-index: 999999999999;
+	}
+</style>
+
+<div style="height: 8000px;"></div>
+<video id="vidos" autobuffer="autobuffer" preload="preload">
+	<source src="fingers.mp4">
+</video>
+
+<script>
+	// Сам видос
+	const vidos = document.getElementById('vidos');
+
+	// Высота контента
+	const scrollHeight = Math.max(
+	  document.body.scrollHeight, document.documentElement.scrollHeight,
+	  document.body.offsetHeight, document.documentElement.offsetHeight,
+	  document.body.clientHeight, document.documentElement.clientHeight
+	);
+
+	// при скроллинге страницы управляю времяи видео ролика
+	function scrollPlay() {
+	  const frameNumber  = window.pageYOffset * (vidos.duration / scrollHeight);
+	  vidos.currentTime  = frameNumber;
+	  // Для оптимальной частоты перерисовки с точки зрения браузера использую requestAnimationFrame
+	  window.requestAnimationFrame(scrollPlay);
+	}
+
+ vidos.addEventListener('loadedmetadata', function() {
+		window.requestAnimationFrame(scrollPlay);
+ });
+
+</script>
